@@ -13,6 +13,7 @@ wire enter_sync_enable, reset_sync_enable;
 wire [31:0] numb;
 
 wire clk100khz;
+wire [7:0] MASK;
 
 debouncer enter_debouncer(
     
@@ -51,6 +52,7 @@ shift_reg shift_reg_inst(
 
     .switches (switches  ),
     .NUMB     (numb      ),
+    .MASK     (MASK      ),
 
     .clk      (clk100mhz ),
     .reset    (reset_sync_enable),
@@ -60,6 +62,7 @@ shift_reg shift_reg_inst(
 segment_controller controller(
 
     .NUMB     (numb     ),
+    .MASK     (MASK     ),
     .anodes   (anodes   ),
     .cathodes (cathodes ),
 

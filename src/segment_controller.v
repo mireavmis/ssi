@@ -3,13 +3,16 @@
 module segment_controller(
     input clk,
     input [31:0] NUMB,
+    input [7:0] MASK,
     output reg [7:0] anodes,
     output reg [7:0] cathodes
 );
     
     wire [2:0] current_number_digit;    
     reg [3:0] current_digit;
+    integer i;
     initial begin
+        i             <= 0;
         anodes        <= 8'b11111111;
         current_digit <= 0;
         cathodes      <= 8'b11111111;
@@ -48,17 +51,23 @@ module segment_controller(
         4'hf: cathodes <= 8'b10001110;
         default: cathodes <= 8'b11111111;
         endcase
-        case(current_number_digit)
-        4'h0: anodes <= 8'b11111110;
-        4'h1: anodes <= 8'b11111101;
-        4'h2: anodes <= 8'b11111011;
-        4'h3: anodes <= 8'b11110111;
-        4'h4: anodes <= 8'b11101111;
-        4'h5: anodes <= 8'b11011111;
-        4'h6: anodes <= 8'b10111111;
-        4'h7: anodes <= 8'b01111111;
-        default: anodes <= 8'b11111111;
-        endcase
+
+        i = current_number_digit;
+        if ((MASK & (1 << i)) == 0) begin
+            case(current_number_digit)
+            4'h0: anodes <= 8'b11111110;
+            4'h1: anodes <= 8'b11111101;
+            4'h2: anodes <= 8'b11111011;
+            4'h3: anodes <= 8'b11110111;
+            4'h4: anodes <= 8'b11101111;
+            4'h5: anodes <= 8'b11011111;
+            4'h6: anodes <= 8'b10111111;
+            4'h7: anodes <= 8'b01111111;
+            default: anodes <= 8'b11111111;
+            endcase
+        end
+        else
+            anodes <= 8'b11111111;
     end
     param_counter #(.UPPER_BOUND(8)) 
         counter(.clk(clk), .rst(1'b0), .cnt(current_number_digit));
