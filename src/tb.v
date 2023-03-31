@@ -19,12 +19,12 @@ initial begin
     #10;
     switches = 3;
     enter = 1;
-    #400;
+    #1000;
     enter = 0;
-    #400;
+    #1000;
     switches = 4;
     enter = 1;
-    #500;
+    #1000;
     enter = 0;
 
     #10000 $finish;
