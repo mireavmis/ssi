@@ -38,7 +38,7 @@ debouncer resest_debouncer(
 );
 
 clk_divider #(
-    .DIV(1000)
+    .DIV(10)
 )
 clk_divider_100khz(
     
